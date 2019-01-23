@@ -94,10 +94,13 @@ class Linkedlist {
   }
 
   insert(val, index) {
+    if(index < 0 || index > this.length) return false;
+    if(index === this.length){
+      this.push(val);
+      return true;} 
     if (index === 0) {
-      return unshift(val);
-    } else if (index === this.length - 1) {
-      return;
+      unshift(val)
+      return true;
     } else {
       const newNode = new Node(val);
       const previousNode = this.get(index - 1);
@@ -106,8 +109,38 @@ class Linkedlist {
       this.length++;
       return true;
     }
-    return false;
 
+  }
+
+  remove(index) {
+    if(index < 0 || index > this.length) return undefined;
+    if(index === 0) return this.shift();
+    if(index === this.length-1) return this.pop();
+    this.length--;
+    let prevNode = this.get(index-1);
+    const removedNode = prevNode.next;
+    prevNode.next = prevNode.next.next;
+    return removedNode;
+  }
+
+  reverse() {
+    if (!this.head) {
+      return null;
+    }
+    
+    var node = this.head;
+    this.head = this.tail;
+    var next;
+    var prev = null;
+    for(var i = 0; i < this.length; i++) {
+      next = node.next;
+      node.next = prev;
+      prev = node;
+      node = next;
+    }
+
+    return this;
+    
   }
 
 }
